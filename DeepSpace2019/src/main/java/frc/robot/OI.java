@@ -7,6 +7,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -39,4 +43,29 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
+
+  public Joystick driverX = new Joystick(RobotMap.driverJoystick);
+  public Joystick opX = new Joystick(RobotMap.operatorJoystick);
+
+  Button driverX_A            = new JoystickButton(driverX, 1);
+  Button driverX_B            = new JoystickButton(driverX, 2);
+  Button driverX_X            = new JoystickButton(driverX, 3);
+  Button driverX_Y            = new JoystickButton(driverX, 4);
+  Button driverX_LeftBumper   = new JoystickButton(driverX, 5);
+  Button driverX_RightBumper  = new JoystickButton(driverX, 6);
+  Button driverX_Back         = new JoystickButton(driverX, 7);
+  Button driverX_Start        = new JoystickButton(driverX, 8);
+  Button driverX_L3           = new JoystickButton(driverX, 9);
+  Button driverX_R3           = new JoystickButton(driverX, 10);
+
+  Button opX_A                = new JoystickButton(opX, 1);
+  Button opX_B                = new JoystickButton(opX, 2);
+  Button opX_X                = new JoystickButton(opX, 3);
+  Button opX_Y                = new JoystickButton(opX, 4);
+  Button opX_LeftBumper       = new JoystickButton(opX, 5);
+  Button opX_RightBumper      = new JoystickButton(opX, 6);
+  Button opX_Back             = new JoystickButton(opX, 7);
+  Button opX_Start            = new JoystickButton(opX, 8);
+  Button opX_L3               = new JoystickButton(opX, 9);
+  Button opX_R3               = new JoystickButton(opX, 10);
 }

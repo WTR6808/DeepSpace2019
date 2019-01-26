@@ -33,7 +33,9 @@ public class RobotMap {
   public static int encoderLeftB = 9;
   public static int encoderRightA = 6;
   public static int encoderRightB = 7;
-  
+   
+  public static int driverJoystick = 0;
+  public static int operatorJoystick = 1;
 
 
 }
