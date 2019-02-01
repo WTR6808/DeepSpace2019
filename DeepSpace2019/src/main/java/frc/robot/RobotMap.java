@@ -38,4 +38,7 @@ public class RobotMap {
   public static int operatorJoystick = 1;
 
 
+  public static int solenoidA = 0;
+  public static int solenoidB = 1;
+
 }

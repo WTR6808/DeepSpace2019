@@ -7,9 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.ArmGrab;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -68,4 +70,35 @@ public class OI {
   Button opX_Start            = new JoystickButton(opX, 8);
   Button opX_L3               = new JoystickButton(opX, 9);
   Button opX_R3               = new JoystickButton(opX, 10);
+
+  public OI(){
+    driverX_A.whenPressed(new ArmGrab(DoubleSolenoid.Value.kForward));
+    driverX_B.whenPressed(new ArmGrab(DoubleSolenoid.Value.kReverse));
+  }
+
+
+
+
+
+
+  public double getDriverX(){
+    return driverX.getX();
+  }
+  
+  public double getDriverY(){
+    return driverX.getY();
+  }
+
+  public double getOpX(){
+    return opX.getX();
+  }
+  
+  public double getOY(){
+    return opX.getY();
+  }
+
+
+
+
+
 }
