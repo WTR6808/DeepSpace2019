@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
+import frc.robot.commands.ArcadeDrive;
 
 /**
  * Add your docs here.
@@ -41,6 +42,13 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+   setDefaultCommand( new ArcadeDrive()); 
+  }
+public void TeleopArcadeDrive(Double Enchilada, Double SpicyAvocado){
+  driveTrain.arcadeDrive(SpicyAvocado, Enchilada);
+
+}
+  public void stop(){
+    driveTrain.arcadeDrive(0,0);
   }
 }

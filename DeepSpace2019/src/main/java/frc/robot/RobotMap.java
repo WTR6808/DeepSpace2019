@@ -37,5 +37,6 @@ public class RobotMap {
   public static int driverJoystick = 0;
   public static int operatorJoystick = 1;
 
-
+ public static int portOne = 0;
+ public static int portTwo = 1;
 }

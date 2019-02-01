@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.HatchIntake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +26,9 @@ public class Robot extends TimedRobot {
   
   public static DriveTrain m_driveTrain;
   public static OI m_oi;
+  m_hatchIntake = new HatchIntake();
+  
+  public static HatchIntake m_hatchIntake;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();

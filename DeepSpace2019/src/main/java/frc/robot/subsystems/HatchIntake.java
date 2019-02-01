@@ -7,18 +7,32 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
  */
-public class HatchIntake extends Subsystem {
+public class HatchIntake extends Subsystem {  
+
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  DoubleSolenoid Josh = new DoubleSolenoid(RobotMap.portOne, RobotMap.portTwo);
+  private static final String Robotmap = null;
 
-  @Override
+  @Override 
+
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
+    }  
     // setDefaultCommand(new MySpecialCommand());
+   
+
+  public void moveArm(DoubleSolenoid.Value communistJosh) {
+    Josh.set(communistJosh);
+  }
+  public void stop(){
+    Josh.set(DoubleSolenoid.Value.kOff);
   }
 }
