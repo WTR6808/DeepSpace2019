@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
+import frc.robot.commands.arcade_drive_train;
 
 /**
  * Add your docs here.
@@ -41,6 +42,14 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+     setDefaultCommand(new arcade_drive_train());
   }
+  public void teleopArcadeDrive(double owlowtierboosting,double d3overwatch ){
+    driveTrain.arcadeDrive(d3overwatch,owlowtierboosting );
+  }
+public void stop(){
+  driveTrain.arcadeDrive(0,0);
+  //Thing above light bulb
 }
+}
+

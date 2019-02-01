@@ -68,4 +68,16 @@ public class OI {
   Button opX_Start            = new JoystickButton(opX, 8);
   Button opX_L3               = new JoystickButton(opX, 9);
   Button opX_R3               = new JoystickButton(opX, 10);
+  public double getDriverX(){
+    return driverX.getX();
+  }
+  public double getDriverY(){
+      return driverX.getY();
+  }
+  public double getOpX(){
+      return opX.getX();
+  }
+  public double getOpY(){
+    return opX.getY();
+  }
 }
