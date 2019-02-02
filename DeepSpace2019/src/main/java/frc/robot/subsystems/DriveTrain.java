@@ -45,7 +45,7 @@ public class DriveTrain extends Subsystem {
    setDefaultCommand( new ArcadeDrive()); 
   }
 public void TeleopArcadeDrive(Double Enchilada, Double SpicyAvocado){
-  driveTrain.arcadeDrive(SpicyAvocado, Enchilada);
+  driveTrain.arcadeDrive(Enchilada, SpicyAvocado);
 
 }
   public void stop(){
