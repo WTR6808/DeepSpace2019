@@ -19,10 +19,9 @@ public class HatchIntake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   DoubleSolenoid Josh = new DoubleSolenoid(RobotMap.portOne, RobotMap.portTwo);
-  private static final String Robotmap = null;
+  
 
   @Override 
-
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     }  

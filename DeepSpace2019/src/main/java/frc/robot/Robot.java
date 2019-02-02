@@ -25,10 +25,9 @@ import frc.robot.subsystems.HatchIntake;
 public class Robot extends TimedRobot {
   
   public static DriveTrain m_driveTrain;
-  public static OI m_oi;
-  m_hatchIntake = new HatchIntake();
-  
   public static HatchIntake m_hatchIntake;
+  public static OI m_oi;
+  
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -40,6 +39,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_driveTrain = new DriveTrain();
+    m_hatchIntake = new HatchIntake();
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
