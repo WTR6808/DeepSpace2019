@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.ArcadeDrive;
 
@@ -48,6 +49,8 @@ public class DriveTrain extends Subsystem {
 
   public void TeleopArcadeDrive(double x, double y){
     driveTrain.arcadeDrive(x, y);
+    SmartDashboard.putNumber("Left Encoder", leftEncoder.getRaw());
+    SmartDashboard.putNumber("Right Encoder", rightEncoder.getRaw());
   }
 
   public void Stop(){
