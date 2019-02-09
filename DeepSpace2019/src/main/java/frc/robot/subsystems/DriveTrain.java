@@ -38,9 +38,25 @@ public class DriveTrain extends Subsystem {
 
 
   public DriveTrain(){
+    leftEncoder.setDistancePerPulse(RobotMap.DIST_PER_PULSE);
+    rightEncoder.setDistancePerPulse(RobotMap.DIST_PER_PULSE);
+
     
   }
+  public void resetDistance(){
+    leftEncoder.reset();
+    rightEncoder.reset();
+  }  
 
+  public double getLeftDistance(){
+    return leftEncoder.getDistance();
+  }
+  
+  public double getRightDistance(){
+    return rightEncoder.getDistance();
+  }
+ 
+ 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -51,6 +67,7 @@ public class DriveTrain extends Subsystem {
     driveTrain.arcadeDrive(x, y);
     SmartDashboard.putNumber("Left Encoder", leftEncoder.getRaw());
     SmartDashboard.putNumber("Right Encoder", rightEncoder.getRaw());
+    
   }
 
   public void Stop(){

@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ArmGrab;
+import frc.robot.commands.Drive;
+import frc.robot.commands.armMove;
+import frc.robot.commands.ballPivot;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -74,6 +77,15 @@ public class OI {
   public OI(){
     driverX_A.whenPressed(new ArmGrab(DoubleSolenoid.Value.kForward));
     driverX_B.whenPressed(new ArmGrab(DoubleSolenoid.Value.kReverse));
+    driverX_X.whenPressed(new ballPivot(1));
+		driverX_X.whenReleased(new ballPivot(0));
+		driverX_Y.whenPressed(new ballPivot(-1));
+    driverX_Y.whenReleased(new ballPivot(0));
+    driverX_LeftBumper.whenPressed(new armMove(-0.25));
+    driverX_LeftBumper.whenReleased(new armMove(0));
+    driverX_RightBumper.whenPressed(new armMove(0.25));
+    driverX_RightBumper.whenReleased(new armMove(0));
+    driverX_Start.whenPressed(new Drive(2, .5));
   }
 
 
@@ -96,7 +108,12 @@ public class OI {
   public double getOY(){
     return opX.getY();
   }
-
+  public Joystick getOp(){
+    return opX;
+  }
+  public Joystick getDriver(){
+    return driverX;
+  }
 
 
 
