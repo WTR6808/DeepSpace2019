@@ -24,8 +24,8 @@ public class RobotMap {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
 
-  public static int driveLeftFrontMotor = 2;
-  public static int driveLeftRearMotor = 3;
+  public static int driveLeftFrontMotor = 3;
+  public static int driveLeftRearMotor = 2;
   public static int driveRightFrontMotor = 0;
   public static int driveRightRearMotor = 1;
 
@@ -33,9 +33,18 @@ public class RobotMap {
   public static int encoderLeftB = 9;
   public static int encoderRightA = 6;
   public static int encoderRightB = 7;
-   
+
   public static int driverJoystick = 0;
   public static int operatorJoystick = 1;
 
+  public static final double ENCODER_PPR = 1440.0;
+  public static final double WHEEL_DIAM = 6.0;
+  public static final double DIST_PER_PULSE = (WHEEL_DIAM/Math.PI)/ENCODER_PPR;
+
+  /*
+  Encoder Colors:
+   Blue = A
+   Yellow = B
+  */
 
 }

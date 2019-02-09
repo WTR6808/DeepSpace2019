@@ -7,21 +7,22 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.commands.ArcadeDrive;
 
-/**
- * Add your docs here.
- */
+// Add your docs here.
+
 public class DriveTrain extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
+  // Put methods for controlling this subsystem here. Call these from commands.
   private Spark leftFront = new Spark(RobotMap.driveLeftFrontMotor);
   private Spark leftRear = new Spark(RobotMap.driveLeftRearMotor);
   private Spark rightFront = new Spark(RobotMap.driveRightFrontMotor);
@@ -31,16 +32,37 @@ public class DriveTrain extends Subsystem {
   private DifferentialDrive driveTrain = new DifferentialDrive(leftGroup, rightGroup);
 
   public Encoder leftEncoder = new Encoder(RobotMap.encoderLeftA, RobotMap.encoderLeftB, true, CounterBase.EncodingType.k4X);
-  public Encoder rightEncoder = new Encoder(RobotMap.encoderRightA, RobotMap.encoderRightB, false, CounterBase.EncodingType.k4X);
-
+  public Encoder rightEncoder = new Encoder(RobotMap.encoderLeftB, RobotMap.encoderRightB, true, CounterBase.EncodingType.k4X);
 
   public DriveTrain(){
-    
+    leftEncoder.setDistancePerPulse(RobotMap.DIST_PER_PULSE);
+    rightEncoder.setDistancePerPulse(RobotMap.DIST_PER_PULSE);
+  }
+
+  public void resetDistance(){
+    leftEncoder.reset();
+    rightEncoder.reset();
+  }
+
+  public double getLeftDistance(){
+    return leftEncoder.getDistance();
+  }
+
+  public double getRightDistance(){
+    return rightEncoder.getDistance();
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ArcadeDrive());
+  }
+
+  public void TeleopArcadeDrive(Double A, Double B){
+    driveTrain.arcadeDrive(B, A);
+  }
+
+  public void stop(){
+    driveTrain.arcadeDrive(0, 0);
   }
 }
