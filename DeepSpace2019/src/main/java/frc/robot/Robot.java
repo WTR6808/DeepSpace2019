@@ -12,7 +12,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.BallIntake;
+import frc.robot.subsystems.BallPivot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.HatchIntake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +27,9 @@ import frc.robot.subsystems.DriveTrain;
 public class Robot extends TimedRobot {
   
   public static DriveTrain m_driveTrain;
+  public static HatchIntake m_hatchIntake;
+  public static BallIntake m_ballIntake;
+  public static BallPivot m_ballPivot;
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -36,9 +42,14 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_driveTrain = new DriveTrain();
+    m_hatchIntake = new HatchIntake();
+    m_ballIntake = new BallIntake();
+    m_ballPivot = new BallPivot();
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+    
+    
   }
 
   /**

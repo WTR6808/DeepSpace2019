@@ -7,18 +7,36 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
  */
+
+ 
 public class HatchIntake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  DoubleSolenoid sol = new DoubleSolenoid(RobotMap.solenoidA, RobotMap.solenoidB);
+  PWMVictorSPX arm = new PWMVictorSPX(RobotMap.armMotor);
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+  }
+
+  public void closeArm(DoubleSolenoid.Value value){
+    sol.set(value);
+  }
+  public void stop(){
+    sol.set(DoubleSolenoid.Value.kOff);
+  }
+  public void moveArm(double val){
+    arm.set(val);
   }
 }

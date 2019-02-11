@@ -7,9 +7,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.ArmGrab;
+import frc.robot.commands.Drive;
+import frc.robot.commands.armMove;
+import frc.robot.commands.ballPivot;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -68,4 +73,49 @@ public class OI {
   Button opX_Start            = new JoystickButton(opX, 8);
   Button opX_L3               = new JoystickButton(opX, 9);
   Button opX_R3               = new JoystickButton(opX, 10);
+
+  public OI(){
+    driverX_A.whenPressed(new ArmGrab(DoubleSolenoid.Value.kForward));
+    driverX_B.whenPressed(new ArmGrab(DoubleSolenoid.Value.kReverse));
+    driverX_X.whenPressed(new ballPivot(1));
+		driverX_X.whenReleased(new ballPivot(0));
+		driverX_Y.whenPressed(new ballPivot(-1));
+    driverX_Y.whenReleased(new ballPivot(0));
+    driverX_LeftBumper.whenPressed(new armMove(-0.25));
+    driverX_LeftBumper.whenReleased(new armMove(0));
+    driverX_RightBumper.whenPressed(new armMove(0.25));
+    driverX_RightBumper.whenReleased(new armMove(0));
+    driverX_Start.whenPressed(Drive.getInstance(2, .5));
+  }
+
+
+
+
+
+
+  public double getDriverX(){
+    return driverX.getX();
+  }
+  
+  public double getDriverY(){
+    return driverX.getY();
+  }
+
+  public double getOpX(){
+    return opX.getX();
+  }
+  
+  public double getOY(){
+    return opX.getY();
+  }
+  public Joystick getOp(){
+    return opX;
+  }
+  public Joystick getDriver(){
+    return driverX;
+  }
+
+
+
+
 }
