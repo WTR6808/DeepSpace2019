@@ -85,7 +85,7 @@ public class OI {
     driverX_LeftBumper.whenReleased(new armMove(0));
     driverX_RightBumper.whenPressed(new armMove(0.25));
     driverX_RightBumper.whenReleased(new armMove(0));
-    driverX_Start.whenPressed(new Drive(2, .5));
+    driverX_Start.whenPressed(Drive.getInstance(2, .5));
   }
 
 

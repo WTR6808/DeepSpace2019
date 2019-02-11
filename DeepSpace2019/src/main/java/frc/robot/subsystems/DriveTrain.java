@@ -67,6 +67,8 @@ public class DriveTrain extends Subsystem {
     driveTrain.arcadeDrive(x, y);
     SmartDashboard.putNumber("Left Encoder", leftEncoder.getRaw());
     SmartDashboard.putNumber("Right Encoder", rightEncoder.getRaw());
+    SmartDashboard.putNumber("Right Distance", rightEncoder.getDistance());
+    SmartDashboard.putNumber("Left Distance", leftEncoder.getDistance());
     
   }
 
