@@ -8,44 +8,49 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
-public class LimeLightOutput extends Command {
-  
-  public LimeLightOutput() {
+public class limeDrive extends Command {
+  private boolean noTarget;
+
+  public limeDrive() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_limeLight);
-    
+    requires(Robot.m_driveTrain);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    noTarget = false;
+    Robot.m_limeLight.setCameraMode(false);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    SmartDashboard.putNumber("LimelightX", Robot.m_limeLight.getTX());
-    SmartDashboard.putNumber("LimelightY", Robot.m_limeLight.getTY());
-    SmartDashboard.putBoolean("LimelightV", Robot.m_limeLight.getTV());
+    if(Robot.m_limeLight.calcSpeeds()){
+      Robot.m_driveTrain.tankDrive(Robot.m_limeLight.getLeftSpeed(), Robot.m_limeLight.getRightSpeed());
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return noTarget || Robot.m_driveTrain.isStopped();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_limeLight.setCameraMode(true);
+    Robot.m_driveTrain.Stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    this.end();
   }
 }

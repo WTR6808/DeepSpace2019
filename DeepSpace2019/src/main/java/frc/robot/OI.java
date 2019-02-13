@@ -13,8 +13,11 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ArmGrab;
 import frc.robot.commands.Drive;
+import frc.robot.commands.DriveToDistance2;
+import frc.robot.commands.DriveToDistance3;
 import frc.robot.commands.armMove;
 import frc.robot.commands.ballPivot;
+import frc.robot.commands.limeDrive;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -85,7 +88,16 @@ public class OI {
     driverX_LeftBumper.whenReleased(new armMove(0));
     driverX_RightBumper.whenPressed(new armMove(0.25));
     driverX_RightBumper.whenReleased(new armMove(0));
-    driverX_Start.whenPressed(Drive.getInstance(2, .5));
+    //driverX_Start.whenPressed(Drive.getInstance(2, .5));
+    //DriveToDistance - Get Instance with Static speed and distance fields
+    //driverX_Start.whenPressed(DriveToDistance.getInstance(12.0, 0.5));
+
+    //DriveToDistance3 - Get Instance with Non-Static speed and distance fields
+    driverX_Start.whenPressed(DriveToDistance3.getInstance(12.0, 0.5));
+
+    //DriveToDistance2 - Constructor with distance and speed parameters, Non-Static fields
+    //driverX_Start.whenPressed(new DriveToDistance2(12.0, 0.5));
+    driverX_Back.whenPressed(new limeDrive());
   }
 
 
