@@ -14,6 +14,7 @@ import frc.robot.Robot;
 public class DriveToDistance2 extends Command {
   private double speed;
   private double distance;
+  private static double KP_HDG;
 
   public DriveToDistance2(double d, double s) {
     // Use requires() here to declare subsystem dependencies
@@ -23,11 +24,14 @@ public class DriveToDistance2 extends Command {
     speed = s;
     SmartDashboard.putNumber("Constructor Speed", speed);
     SmartDashboard.putNumber("Constructor Distance", distance);
+    KP_HDG = SmartDashboard.getNumber("Drive angle", 0.5);
    }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    //distance = SmartDashboard.getNumber("Drive Distance", 0);
+    //speed = SmartDashboard.getNumber("Drive Speed", 0);
     Robot.m_driveTrain.Stop();
     Robot.m_driveTrain.resetDistance();
     SmartDashboard.putNumber("Initialize Speed", speed);
@@ -38,21 +42,20 @@ public class DriveToDistance2 extends Command {
   @Override
   protected void execute() {
     SmartDashboard.putNumber("Execute Speed", speed);
-    Robot.m_driveTrain.TeleopArcadeDrive(speed,0.0); 
+    //Robot.m_driveTrain.TeleopArcadeDrive(speed,-(Robot.m_driveTrain.getLeftDistance()-Robot.m_driveTrain.getRightDistance())*KP_HDG); 
+    Robot.m_driveTrain.TeleopArcadeDrive(speed,0.0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     SmartDashboard.putNumber("isFinished Distance", distance);
-    return(distance - Robot.m_driveTrain.getLeftDistance()) < 0.5;
+    return(distance - (Robot.m_driveTrain.getLeftDistance())) < 0.5;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    speed = 0.0;
-    distance = 0.0;
     Robot.m_driveTrain.Stop();
 
     //Put these here so that we can see transitions in values

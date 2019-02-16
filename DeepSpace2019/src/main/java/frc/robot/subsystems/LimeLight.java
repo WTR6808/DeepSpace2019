@@ -25,6 +25,7 @@ public class LimeLight extends Subsystem {
   private static final double KP_DIST = 0.1;
   private static final double KP_AIM = 0.1;
   private static final double X_TOLERANCE = 0.5;
+  private static final double Y_TOLERANCE = 2;
   private static final double LIMIT = 0.8;
 
   private static double leftSpeed;
@@ -75,12 +76,15 @@ public class LimeLight extends Subsystem {
     double headingAdj;
     double distanceAdj;
     if(getTV()){
-      SmartDashboard.putString("Valid Target", "Valid Target");
-      distanceAdj = (getTY()/TY_MAX)*KP_DIST;
-      headingAdj = (getTX()/TX_MAX)*KP_DIST;
-      leftSpeed += (distanceAdj-headingAdj)*LIMIT;
+      SmartDashboard.putBoolean("Valid Target", getTV());
+      headingAdj = (Math.abs(getTX()) > X_TOLERANCE?getTX()/TX_MAX:0);
+      distanceAdj = (Math.abs(getTY()) > Y_TOLERANCE?getTY()/TY_MAX:0);
+      leftSpeed = (distanceAdj-headingAdj)*LIMIT;
+      rightSpeed = (headingAdj+distanceAdj)*LIMIT;
+      SmartDashboard.putNumber("Left Speed", leftSpeed);
+      SmartDashboard.putNumber("Right Speed", rightSpeed);
     }else{
-      SmartDashboard.putString("Valid Target", "No valid target");
+      SmartDashboard.putBoolean("Valid Target", getTV());
       leftSpeed = 0;
       rightSpeed = 0;
     }

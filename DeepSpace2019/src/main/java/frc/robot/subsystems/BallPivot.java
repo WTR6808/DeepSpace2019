@@ -31,17 +31,17 @@ public class BallPivot extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
   public void drivePivot(double speed) {
-    if(!getIsFullUp() && speed > 0.2) {
+    if(!fullUp.get() && speed > 0.2) {
         intakePivot.setSpeed(speed);
         //System.out.println("Pivot Up");
         //System.out.println(speed*.4);
         
-    }else if(!getIsFullDown() && speed < -0.2)
+    }else if(!fullDown.get() && speed < -0.2)
       {
         intakePivot.setSpeed(speed);
         //System.out.println("Pivot Down");
         //System.out.println(speed);
-    }else if(getIsFullDown() && getIsFullUp()) {
+    }else if(fullUp.get() && fullDown.get()) {
         intakePivot.setSpeed(speed);
         //System.out.println("Pivot Transition");
         //System.out.println(speed);
@@ -52,26 +52,6 @@ public class BallPivot extends Subsystem {
       
   }
   
-  public boolean getIsFullUp() {
-    if(!fullUp.get()) {
-      isUp = 1;
-    }
-    else {
-      isUp = 0;
-      
-    }
-    return fullUp.get();
-  }
-  public boolean getIsFullDown() {
-    if(!fullDown.get()) {
-      isDown = 1;
-    }
-    else {
-      isDown = 0;
-      
-    }
-    return fullDown.get();
-  }
   public void PivotArm(double speed, double time) {
     intakePivot.setSpeed(speed);
     Timer.delay(time);

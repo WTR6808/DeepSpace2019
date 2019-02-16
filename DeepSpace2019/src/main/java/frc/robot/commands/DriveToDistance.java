@@ -12,64 +12,71 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class DriveToDistance extends Command {
-  private static DriveToDistance instance = null;
-  private static double speed;
-  private static double distance;
+  //KP term for heading correction PID
+  private static final double KP_HDG_ADJ = 0.05;
 
-  public DriveToDistance() {
+  //Allowable distance error for determining isFinished
+  private static final double DIST_TOLERANCE = 0.5;
+
+  //Target distance and speed as set by the constructor
+  private double speed;
+  private double distance;
+
+  //Currently travelled distances as measured by the encoders
+  private double leftDist;
+  private double rightDist;
+
+  public DriveToDistance(double d, double s) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_driveTrain);
-  }
 
-  public static DriveToDistance getInstance(double d, double s){
-    if (instance == null){
-      instance = new DriveToDistance();
-    }
-    DriveToDistance.speed = s;
-    DriveToDistance.distance = d;
-    SmartDashboard.putNumber("getInstance Speed", DriveToDistance.speed);
-    SmartDashboard.putNumber("getInstance Distance", DriveToDistance.distance);
-    return instance;
+    //Store the target distance and speed
+    distance = d;
+    speed = s;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    //Make sure the robot is stopped and set the encoders to 0
     Robot.m_driveTrain.Stop();
     Robot.m_driveTrain.resetDistance();
-    SmartDashboard.putNumber("Initialize Speed", DriveToDistance.speed);
-    SmartDashboard.putNumber("Initialize Distance", DriveToDistance.distance);
+    leftDist  = 0.0;
+    rightDist = 0.0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    SmartDashboard.putNumber("Execute Speed", DriveToDistance.speed);
-    Robot.m_driveTrain.TeleopArcadeDrive(DriveToDistance.speed,0.0); 
+    double headingError;
+    
+    //Get the current distances and send to dashboard for troubleshooting
+    leftDist  = Robot.m_driveTrain.getLeftDistance();
+    rightDist = Robot.m_driveTrain.getRightDistance();
+    SmartDashboard.putNumber("Left  Distance: ", leftDist);
+    SmartDashboard.putNumber("Right Distance: ", rightDist);
+
+    //Calculate the error in the left and right encoders and adjust heading
+    //KP for error correction will need to be determined by trial and error
+    headingError = (leftDist-rightDist)  * KP_HDG_ADJ;
+
+    //Use heading error as rotation speed in Arcade Drive
+    Robot.m_driveTrain.TeleopArcadeDrive(speed,-headingError); 
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    SmartDashboard.putNumber("isFinished Distance", DriveToDistance.distance);
-    return(DriveToDistance.distance - Robot.m_driveTrain.getLeftDistance()) < 0.5;
+    //Use the average distance travelled to determine is finished
+    return(distance - ((leftDist+rightDist)/2.0)) < DIST_TOLERANCE;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    DriveToDistance.speed = 0.0;
-    DriveToDistance.distance = 0.0;
+    //Make sure the robot is completely stopped.
     Robot.m_driveTrain.Stop();
-
-    //Put these here so that we can see transitions in values
-    SmartDashboard.putNumber("getInstance Speed", DriveToDistance.speed);
-    SmartDashboard.putNumber("getInstance Distance", DriveToDistance.distance);
-    SmartDashboard.putNumber("Initialize Speed", DriveToDistance.speed);
-    SmartDashboard.putNumber("Initialize Distance", DriveToDistance.distance);
-    SmartDashboard.putNumber("Execute Speed", DriveToDistance.speed);
-    SmartDashboard.putNumber("isFinished Distance", DriveToDistance.distance);
   }
 
   // Called when another command which requires one or more of the same

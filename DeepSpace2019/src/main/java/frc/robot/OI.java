@@ -11,12 +11,15 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ArmGrab;
 import frc.robot.commands.Drive;
+import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.DriveToDistance2;
 import frc.robot.commands.DriveToDistance3;
 import frc.robot.commands.armMove;
 import frc.robot.commands.ballPivot;
+import frc.robot.commands.changeMode;
 import frc.robot.commands.limeDrive;
 
 /**
@@ -84,20 +87,25 @@ public class OI {
 		driverX_X.whenReleased(new ballPivot(0));
 		driverX_Y.whenPressed(new ballPivot(-1));
     driverX_Y.whenReleased(new ballPivot(0));
-    driverX_LeftBumper.whenPressed(new armMove(-0.25));
+    driverX_LeftBumper.whenPressed(new armMove(-0.35));
     driverX_LeftBumper.whenReleased(new armMove(0));
-    driverX_RightBumper.whenPressed(new armMove(0.25));
+    driverX_RightBumper.whenPressed(new armMove(0.35));
     driverX_RightBumper.whenReleased(new armMove(0));
-    //driverX_Start.whenPressed(Drive.getInstance(2, .5));
+    driverX_Start.whenPressed(new Drive(2, .5));
     //DriveToDistance - Get Instance with Static speed and distance fields
     //driverX_Start.whenPressed(DriveToDistance.getInstance(12.0, 0.5));
 
     //DriveToDistance3 - Get Instance with Non-Static speed and distance fields
-    driverX_Start.whenPressed(DriveToDistance3.getInstance(12.0, 0.5));
+    //driverX_Start.whenPressed(DriveToDistance3.getInstance(12.0, 0.5));
 
     //DriveToDistance2 - Constructor with distance and speed parameters, Non-Static fields
-    //driverX_Start.whenPressed(new DriveToDistance2(12.0, 0.5));
+    SmartDashboard.putNumber("Drive Distance", 0);
+    SmartDashboard.putNumber("Drive Speed", 0);
+  //driverX_Start.whenPressed(new DriveToDistance2(SmartDashboard.getNumber("Drive Distance", 0), SmartDashboard.getNumber("Drive Speed", 0)));
+    //driverX_Start.whenPressed(new DriveToDistance(12, .4));
+  
     driverX_Back.whenPressed(new limeDrive());
+    driverX_L3.whenPressed(new changeMode());
   }
 
 

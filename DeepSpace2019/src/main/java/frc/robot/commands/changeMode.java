@@ -8,29 +8,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
-public class LimeLightOutput extends Command {
-  
-  public LimeLightOutput() {
+public class changeMode extends Command {
+  public changeMode() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_limeLight);
-    
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_limeLight.setCameraMode(true);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    SmartDashboard.putNumber("LimelightX", Robot.m_limeLight.getTX());
-    SmartDashboard.putNumber("LimelightY", Robot.m_limeLight.getTY());
-    SmartDashboard.putBoolean("LimelightV", Robot.m_limeLight.getTV());
+    Robot.m_limeLight.setCameraMode(false);
   }
 
   // Make this return true when this Command no longer needs to run execute()
