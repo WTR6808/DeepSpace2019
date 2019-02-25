@@ -87,11 +87,11 @@ public class OI {
 		driverX_X.whenReleased(new ballPivot(0));
 		driverX_Y.whenPressed(new ballPivot(-1));
     driverX_Y.whenReleased(new ballPivot(0));
-    driverX_LeftBumper.whenPressed(new armMove(-0.35));
+    driverX_LeftBumper.whenPressed(new armMove(-0.25));
     driverX_LeftBumper.whenReleased(new armMove(0));
-    driverX_RightBumper.whenPressed(new armMove(0.35));
+    driverX_RightBumper.whenPressed(new armMove(0.25));
     driverX_RightBumper.whenReleased(new armMove(0));
-    driverX_Start.whenPressed(new Drive(2, .5));
+    //driverX_Start.whenPressed(new Drive(2, .5));
     //DriveToDistance - Get Instance with Static speed and distance fields
     //driverX_Start.whenPressed(DriveToDistance.getInstance(12.0, 0.5));
 

@@ -25,8 +25,8 @@ public class HatchIntake extends Subsystem {
   DoubleSolenoid sol = new DoubleSolenoid(RobotMap.solenoidA, RobotMap.solenoidB);
   PWMVictorSPX arm = new PWMVictorSPX(RobotMap.armMotorRight);
   PWMVictorSPX arm2 = new PWMVictorSPX(RobotMap.armMotorLeft);
-  DigitalInput fullFront = new DigitalInput(RobotMap.armLimitFront);
-	DigitalInput fullBack = new DigitalInput(RobotMap.armLimitBack);
+  DigitalInput fullBack = new DigitalInput(RobotMap.armLimitFront);
+	DigitalInput fullFront = new DigitalInput(RobotMap.armLimitBack);
 	private int isFront;
   private int isBack;
   

@@ -61,9 +61,9 @@ public class DriveTrain extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     setDefaultCommand(new ArcadeDrive());
-    //driveTrain.setSafetyEnabled(false);
+    driveTrain.setSafetyEnabled(true);
   }
-
+  
   public void TeleopArcadeDrive(double x, double y){
     driveTrain.arcadeDrive(x, y);
     SmartDashboard.putNumber("Left Encoder", leftEncoder.getRaw());
@@ -78,6 +78,7 @@ public class DriveTrain extends Subsystem {
 
   public void Stop(){
     driveTrain.arcadeDrive(0,0);
+    driveTrain.tankDrive(0,0);
   }
   public boolean isStopped(){
     return leftEncoder.getStopped() && rightEncoder.getStopped();

@@ -46,7 +46,7 @@ public class DriveToDistance3 extends Command {
   @Override
   protected void execute() {
     SmartDashboard.putNumber("Execute Speed", instance.speed);
-    Robot.m_driveTrain.TeleopArcadeDrive(instance.speed,0.0); 
+    //Robot.m_driveTrain.TeleopArcadeDrive(instance.speed,0.0); 
   }
 
   // Make this return true when this Command no longer needs to run execute()

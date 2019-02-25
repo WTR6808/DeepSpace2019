@@ -67,11 +67,28 @@ public class LimeLight extends Subsystem {
     rightSpeed = 0;
   }
   public double getLeftSpeed(){
-    return leftSpeed;
+    double headingAdj;
+    double distanceAdj;
+    if(getTV()){
+      headingAdj = (Math.abs(getTX()) > X_TOLERANCE?getTX()/TX_MAX:0);
+      distanceAdj = (Math.abs(getTY()) > Y_TOLERANCE?getTY()/TY_MAX:0);
+      return (distanceAdj-headingAdj)*LIMIT;
+    }else{
+      return 0;
+    }
   }
   public double getRightSpeed(){
-    return rightSpeed;
+    double headingAdj;
+    double distanceAdj;
+    if(getTV()){
+      headingAdj = (Math.abs(getTX()) > X_TOLERANCE?getTX()/TX_MAX:0);
+      distanceAdj = (Math.abs(getTY()) > Y_TOLERANCE?getTY()/TY_MAX:0);
+      return (headingAdj+distanceAdj)*LIMIT;
+    }else{
+      return 0;
+    }
   }
+  /*
   public boolean calcSpeeds(){
     double headingAdj;
     double distanceAdj;
@@ -89,5 +106,5 @@ public class LimeLight extends Subsystem {
       rightSpeed = 0;
     }
     return getTV();
-  }
+  }*/
 }

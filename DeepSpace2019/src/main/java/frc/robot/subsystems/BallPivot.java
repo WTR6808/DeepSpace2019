@@ -31,6 +31,7 @@ public class BallPivot extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
   public void drivePivot(double speed) {
+   // System.out.println(fullUp.get());
     if(!fullUp.get() && speed > 0.2) {
         intakePivot.setSpeed(speed);
         //System.out.println("Pivot Up");

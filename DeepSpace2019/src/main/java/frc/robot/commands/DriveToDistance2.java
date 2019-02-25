@@ -43,7 +43,7 @@ public class DriveToDistance2 extends Command {
   protected void execute() {
     SmartDashboard.putNumber("Execute Speed", speed);
     //Robot.m_driveTrain.TeleopArcadeDrive(speed,-(Robot.m_driveTrain.getLeftDistance()-Robot.m_driveTrain.getRightDistance())*KP_HDG); 
-    Robot.m_driveTrain.TeleopArcadeDrive(speed,0.0);
+    //Robot.m_driveTrain.TeleopArcadeDrive(speed,0.0);
   }
 
   // Make this return true when this Command no longer needs to run execute()

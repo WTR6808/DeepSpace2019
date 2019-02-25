@@ -62,7 +62,7 @@ public class DriveToDistance extends Command {
     headingError = (leftDist-rightDist)  * KP_HDG_ADJ;
 
     //Use heading error as rotation speed in Arcade Drive
-    Robot.m_driveTrain.TeleopArcadeDrive(speed,-headingError); 
+    //Robot.m_driveTrain.TeleopArcadeDrive(speed,-headingError); 
   }
 
   // Make this return true when this Command no longer needs to run execute()
