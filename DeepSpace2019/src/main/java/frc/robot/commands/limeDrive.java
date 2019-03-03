@@ -7,9 +7,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class limeDrive extends Command {
@@ -17,46 +15,38 @@ public class limeDrive extends Command {
 
   public limeDrive() {
     // Use requires() here to declare subsystem dependencies
+    //requires(Robot.m_limeLight);
     requires(Robot.m_driveTrain);
-//    requires(Robot.m_limeLight);
-    
-    
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     noTarget = false;
-//    Robot.m_limeLight.setCameraMode(false);
+    Robot.m_driveTrain.setVisionMode();
+    Robot.m_driveTrain.Stop();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //if(Robot.m_limeLight.calcSpeeds()){
-
- //     SmartDashboard.putNumber("LimeExLeft", Robot.m_limeLight.getLeftSpeed());
-   //   SmartDashboard.putNumber("LimeExRight", Robot.m_limeLight.getRightSpeed());
-
-     // Robot.m_driveTrain.tankDrive(Robot.m_limeLight.getLeftSpeed(), Robot.m_limeLight.getRightSpeed());
-      Robot.m_driveTrain.tankDrive(.2, .2);
-      // }
-    //Robot.m_driveTrain.tankDrive(.5, .5);
-    //Timer.delay(.5);
-    //Robot.m_driveTrain.tankDrive(0,0);
+    //Robot.m_driveTrain.tankDrive(0.5, 0.5);
+    //noTarget = false;
+//Test 2:  Uncomment next line and comment out two lines above
+    noTarget = !Robot.m_driveTrain.visionDrive(); //visionDrive returns true if target found
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (noTarget);// || (Math.abs(Robot.m_limeLight.getTX()) < 1.0) && (Math.abs(Robot.m_limeLight.getTY())) < 0.5);
-    //return false;
+//Test 6: Uncomment Robot.m_driveTrain.atTarget()
+    return noTarget;// || Robot.m_driveTrain.atTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-//    Robot.m_limeLight.setCameraMode(false);
+    Robot.m_driveTrain.setDriverMode();
     Robot.m_driveTrain.Stop();
   }
 

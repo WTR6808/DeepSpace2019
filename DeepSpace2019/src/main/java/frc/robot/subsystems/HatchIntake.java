@@ -50,7 +50,7 @@ public class HatchIntake extends Subsystem {
       //System.out.println(speed*.4);
       
   }else if(getIsFullDown() && speed > 0.2)
-    {
+  {
       arm.setSpeed(speed);
       arm2.setSpeed(speed);
       //System.out.println("Pivot Down");
@@ -62,6 +62,7 @@ public class HatchIntake extends Subsystem {
       //System.out.println(speed);
   }else {
       arm.setSpeed(0);
+      arm2.setSpeed(0);
       //System.out.println("Pivot Stopped");
     }
     

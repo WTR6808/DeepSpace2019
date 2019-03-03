@@ -49,5 +49,5 @@ public class RobotMap {
   //costants E14 encoders CPR = 620 x 4 = 1440 pulses /revolution 
   public static final double ENCODER_PPR = 1440.0;//360 CPR * 4pulses/rev
   public static final double  WHEEL_DIAM = 6.0;//inches
-  public static final double DIST_PER_PULSE = ((WHEEL_DIAM*Math.PI)/ENCODER_PPR)*(12/6.5);
+  public static final double DIST_PER_PULSE = ((WHEEL_DIAM*Math.PI)/ENCODER_PPR)*(2/6.5);
 }

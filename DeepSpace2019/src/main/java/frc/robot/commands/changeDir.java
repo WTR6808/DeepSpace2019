@@ -8,35 +8,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
 
-public class LimeLightOutput extends Command {
-  
-  public LimeLightOutput() {
+public class changeDir extends Command {
+  public changeDir() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_limeLight);
-    
+    // eg. requires(chassis);
+    requires(Robot.m_driveTrain);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_limeLight.setCameraMode(true);
+    Robot.m_driveTrain.changeFront();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    SmartDashboard.putNumber("LimelightX", Robot.m_limeLight.getTX());
-    SmartDashboard.putNumber("LimelightY", Robot.m_limeLight.getTY());
-    SmartDashboard.putBoolean("LimelightV", Robot.m_limeLight.getTV());
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

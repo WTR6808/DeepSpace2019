@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.HatchIntake;
 
 public class ArmGrab extends Command {
   DoubleSolenoid.Value val;
