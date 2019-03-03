@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -30,6 +31,7 @@ public class Robot extends TimedRobot {
   public static HatchIntake m_hatchIntake;
   public static BallIntake m_ballIntake;
   public static BallPivot m_ballPivot;
+//  public static LimeLight m_limeLight;
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -45,10 +47,11 @@ public class Robot extends TimedRobot {
     m_hatchIntake = new HatchIntake();
     m_ballIntake = new BallIntake();
     m_ballPivot = new BallPivot();
+//    m_limeLight = new LimeLight();
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    
+    CameraServer.getInstance().startAutomaticCapture();
     
   }
 

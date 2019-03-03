@@ -18,8 +18,8 @@ public class BallIntake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  Spark armRight = new Spark(11);
-	Spark armLeft = new Spark(12);
+  Spark armRight = new Spark(7);
+	Spark armLeft = new Spark(8);
 
   @Override
   public void initDefaultCommand() {
@@ -28,7 +28,7 @@ public class BallIntake extends Subsystem {
   }
   public void Intake(double d) {
     armRight.setSpeed(d);
-    armLeft.setSpeed(d);
+    armLeft.setSpeed(-d);
     //System.out.println(X.getPOV());
   }
   public void Stop() {

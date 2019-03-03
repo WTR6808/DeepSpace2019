@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,11 +20,11 @@ public class BallPivot extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  Spark intakePivot = new Spark(10);
+  PWMVictorSPX intakePivot = new PWMVictorSPX(6);
 	DigitalInput fullUp = new DigitalInput(0);
 	DigitalInput fullDown = new DigitalInput(1);
-	private int isUp;
-	private int isDown;
+	//private int isUp;
+	//private int isDown;
 
   @Override
   public void initDefaultCommand() {
@@ -31,17 +32,18 @@ public class BallPivot extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
   public void drivePivot(double speed) {
-    if(!getIsFullUp() && speed > 0.2) {
+   // System.out.println(fullUp.get());
+    if(!fullUp.get() && speed > 0.2) {
         intakePivot.setSpeed(speed);
         //System.out.println("Pivot Up");
         //System.out.println(speed*.4);
         
-    }else if(!getIsFullDown() && speed < -0.2)
+    }else if(!fullDown.get() && speed < -0.2)
       {
         intakePivot.setSpeed(speed);
         //System.out.println("Pivot Down");
         //System.out.println(speed);
-    }else if(getIsFullDown() && getIsFullUp()) {
+    }else if(fullUp.get() && fullDown.get()) {
         intakePivot.setSpeed(speed);
         //System.out.println("Pivot Transition");
         //System.out.println(speed);
@@ -52,26 +54,6 @@ public class BallPivot extends Subsystem {
       
   }
   
-  public boolean getIsFullUp() {
-    if(!fullUp.get()) {
-      isUp = 1;
-    }
-    else {
-      isUp = 0;
-      
-    }
-    return fullUp.get();
-  }
-  public boolean getIsFullDown() {
-    if(!fullDown.get()) {
-      isDown = 1;
-    }
-    else {
-      isDown = 0;
-      
-    }
-    return fullDown.get();
-  }
   public void PivotArm(double speed, double time) {
     intakePivot.setSpeed(speed);
     Timer.delay(time);

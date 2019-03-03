@@ -27,12 +27,12 @@ public class ballIntake extends Command {
   @Override
   protected void execute() {
         	//Robot.driveTrain.testMotor(motorSpeed);
-          Joystick joystickX = Robot.m_oi.getDriver();
+          Joystick joystickX = Robot.m_oi.getOp();
           //Joystick joystickX = Robot.m_oi.getopX();
           if(joystickX.getRawAxis(2) > 0.2 ) {
-            Robot.m_ballIntake.Intake(joystickX.getRawAxis(2)*.8);
+            Robot.m_ballIntake.Intake(joystickX.getRawAxis(2)*.6);
           }else if(joystickX.getRawAxis(3) > 0.2) {
-            Robot.m_ballIntake.Intake(-joystickX.getRawAxis(3)*.8);
+            Robot.m_ballIntake.Intake(-joystickX.getRawAxis(3)*.6);
             
           }else {
             Robot.m_ballIntake.Intake(0);

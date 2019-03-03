@@ -12,53 +12,40 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 
-public class Drive extends Command {
+public class DriveToDistance extends Command {
 
   private static double distance = 0.0;
   private static double speed = 0.0;
 
-  private static Drive instance = null;
-
-  public Drive(double d, double s) {
+  public DriveToDistance(double d, double s) {
       requires (Robot.m_driveTrain);
-      this.distance =d;
-      this.speed =s;
+      distance = d;
+      speed = s;
       SmartDashboard.putNumber("Constructor Speed", speed);
       SmartDashboard.putNumber("Constructor Distance", distance);
   }
-  public static Drive getInstance(double d, double s){
-    if(instance == null){
-      instance = new Drive(d, s);
-    }else{
-      speed = s;
-      distance = d;
-      }
-      return instance;
-    }
 
   @Override
   protected void initialize(){
     Robot.m_driveTrain.Stop();
     Robot.m_driveTrain.resetDistance();
     SmartDashboard.putNumber("Initialize Speed", speed);
-      SmartDashboard.putNumber("Initialize Distance", distance);
+    SmartDashboard.putNumber("Initialize Distance", distance);
   }
   @Override
   protected void execute(){
-    Robot.m_driveTrain.TeleopArcadeDrive(speed,0.0); 
-    
+    //Robot.m_driveTrain.TeleopArcadeDrive(speed,0.0); 
+    Robot.m_driveTrain.TeleopArcadeDrive(speed,-(Robot.m_driveTrain.getLeftDistance()-Robot.m_driveTrain.getRightDistance())*0.05);
   }
 
   @Override
   protected boolean isFinished (){
-    return(distance - Robot.m_driveTrain.getLeftDistance()) < 0.5;
+    return(distance - (Robot.m_driveTrain.getLeftDistance()+Robot.m_driveTrain.getRightDistance())/2) < 0.5;
 
   }
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    this.speed = 0.0;
-    this.distance = 0.0;
     Robot.m_driveTrain.Stop();
     Robot.m_driveTrain.resetDistance();
   }
