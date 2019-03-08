@@ -92,7 +92,8 @@ public class OI {
     driverX_Start.whenPressed(new changeDir());
 //    SmartDashboard.putNumber("Drive Distance", 0);
 //    SmartDashboard.putNumber("Drive Speed", 0);
-    opX_Back.whenPressed(new ballShoot(.6));
+    opX_Back.whenPressed(new ballShoot(-.6));
+    opX_Back.whenReleased(new ballShoot(0));
     //driverX_Back.whenPressed(new limeDrive());
     driverX_L3.whenPressed(new changeMode());
   }

@@ -9,9 +9,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -20,9 +20,9 @@ public class BallPivot extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  PWMVictorSPX intakePivot = new PWMVictorSPX(6);
-	DigitalInput fullUp = new DigitalInput(0);
-	DigitalInput fullDown = new DigitalInput(1);
+  PWMVictorSPX intakePivot = new PWMVictorSPX(RobotMap.intakePivotMotor);
+	DigitalInput fullUp = new DigitalInput(RobotMap.encoderArmUp);
+	DigitalInput fullDown = new DigitalInput(RobotMap.encoderArmDown);
 	//private int isUp;
 	//private int isDown;
 

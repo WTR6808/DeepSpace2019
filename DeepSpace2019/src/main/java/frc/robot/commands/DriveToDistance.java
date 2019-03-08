@@ -21,16 +21,16 @@ public class DriveToDistance extends Command {
       requires (Robot.m_driveTrain);
       distance = d;
       speed = s;
-      SmartDashboard.putNumber("Constructor Speed", speed);
-      SmartDashboard.putNumber("Constructor Distance", distance);
+      //SmartDashboard.putNumber("Constructor Speed", speed);
+      //SmartDashboard.putNumber("Constructor Distance", distance);
   }
 
   @Override
   protected void initialize(){
     Robot.m_driveTrain.Stop();
     Robot.m_driveTrain.resetDistance();
-    SmartDashboard.putNumber("Initialize Speed", speed);
-    SmartDashboard.putNumber("Initialize Distance", distance);
+    //SmartDashboard.putNumber("Initialize Speed", speed);
+    //SmartDashboard.putNumber("Initialize Distance", distance);
   }
   @Override
   protected void execute(){

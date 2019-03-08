@@ -67,10 +67,10 @@ public class DriveTrain extends Subsystem {
     //return true;
     if (limeLight.calcSpeeds()){
       this.tankDrive(limeLight.getLeftSpeed(), limeLight.getRightSpeed());
-      SmartDashboard.putNumber("TX", limeLight.getTX());
-      SmartDashboard.putNumber("TY", limeLight.getTY());
-      SmartDashboard.putNumber("Left  Speed", limeLight.getLeftSpeed());
-      SmartDashboard.putNumber("Right Speed", limeLight.getRightSpeed());
+      //SmartDashboard.putNumber("TX", limeLight.getTX());
+      //SmartDashboard.putNumber("TY", limeLight.getTY());
+      //SmartDashboard.putNumber("Left  Speed", limeLight.getLeftSpeed());
+      //SmartDashboard.putNumber("Right Speed", limeLight.getRightSpeed());
       return true;
     } 
     else {
@@ -107,8 +107,8 @@ public class DriveTrain extends Subsystem {
     driveTrain.arcadeDrive(dir*x, y);
 //    SmartDashboard.putNumber("Left Encoder", leftEncoder.getRaw());
 //    SmartDashboard.putNumber("Right Encoder", rightEncoder.getRaw());
-    SmartDashboard.putNumber("Right Distance", rightEncoder.getDistance());
-    SmartDashboard.putNumber("Left Distance", leftEncoder.getDistance());
+    //SmartDashboard.putNumber("Right Distance", rightEncoder.getDistance());
+    //SmartDashboard.putNumber("Left Distance", leftEncoder.getDistance());
     
   }
   public void tankDrive(double x, double y){
@@ -123,7 +123,7 @@ public class DriveTrain extends Subsystem {
   }
   public void changeFront(){
     dir *= -1;
-    SmartDashboard.putNumber("Direction", dir);
+    //SmartDashboard.putNumber("Direction", dir);
     this.TeleopArcadeDrive(Robot.m_oi.getDriverX(), Robot.m_oi.getDriverY());
   }
 }
