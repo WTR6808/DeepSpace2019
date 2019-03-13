@@ -40,7 +40,7 @@ public class limeDrive extends Command {
   @Override
   protected boolean isFinished() {
 //Test 6: Uncomment Robot.m_driveTrain.atTarget()
-    return noTarget;// || Robot.m_driveTrain.atTarget();
+    return noTarget || Robot.m_driveTrain.atTarget();
   }
 
   // Called once after isFinished returns true

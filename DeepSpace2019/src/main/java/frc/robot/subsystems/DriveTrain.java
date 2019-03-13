@@ -42,6 +42,8 @@ public class DriveTrain extends Subsystem {
 
   private int dir = 1;
 
+  private double change = 0.0;
+  private double limitedJoystick = 0.0;
 
   public DriveTrain(){
     //Program the decoders
@@ -51,6 +53,43 @@ public class DriveTrain extends Subsystem {
     //Set camera to driver mode
     this.setDriverMode();
   }
+  // public double smoothSpeed(){
+  //   if (speedChange() >= limitedJoystick){
+  //     limitedJoystick = limitedJoystick + RobotMap.DRIVE_LIMIT;
+  //   }
+  //   else if (speedChange() < limitedJoystick){
+  //     limitedJoystick = limitedJoystick - RobotMap.DRIVE_LIMIT;
+  //   }else{
+  //     return 0.0;
+  //   }
+  //   return limitedJoystick;
+  // }
+
+  // public double speedChange(){
+  //   if (Math.signum(Robot.m_oi.getDriverY()) > 0){
+  //     change = Robot.m_oi.getDriverY() - limitedJoystick;
+  //   }
+  //   else if (Math.signum(Robot.m_oi.getDriverY()) < 0){
+  //     change = Robot.m_oi.getDriverY() + limitedJoystick;
+  //   }
+  //   else{
+  //     return 0.00;
+  //   }
+  //   return change;
+  // }
+  public double smoothSpeed(){
+    double speed = 0.0;
+    if(Math.abs(Robot.m_oi.getDriverY())> 0){
+      if(speed == 0){
+        speed = .5*Robot.m_oi.getDriverY();
+      }
+      if(Math.abs(speed)<=1 && Math.abs(speed)>0){
+        speed += Math.signum(speed)*RobotMap.DRIVE_LIMIT;
+      }
+      return speed;
+    }
+    return 0.0;
+  }
 
   public void setDriverMode(){
     limeLight.setCameraMode(true);
@@ -59,21 +98,18 @@ public class DriveTrain extends Subsystem {
   public void setVisionMode(){
     limeLight.setCameraMode(false);
   }
-
+  public void setMode(){
+    limeLight.setCameraMode(limeLight.getBool());
+  }
   public boolean visionDrive(){
-//Test 3: Comment out the following two lines and
-//        uncomment the if ... else block
-    //this.tankDrive(0.5,0.5);
-    //return true;
     if (limeLight.calcSpeeds()){
       this.tankDrive(limeLight.getLeftSpeed(), limeLight.getRightSpeed());
-      //SmartDashboard.putNumber("TX", limeLight.getTX());
-      //SmartDashboard.putNumber("TY", limeLight.getTY());
-      //SmartDashboard.putNumber("Left  Speed", limeLight.getLeftSpeed());
-      //SmartDashboard.putNumber("Right Speed", limeLight.getRightSpeed());
+      SmartDashboard.putNumber("TX", limeLight.getTX());
+      SmartDashboard.putNumber("TY", limeLight.getTY());
+      SmartDashboard.putNumber("Left Speed", limeLight.getLeftSpeed());
+      SmartDashboard.putNumber("Right Speed", limeLight.getRightSpeed());
       return true;
-    } 
-    else {
+    } else {
       return false;
     }
   }
@@ -112,7 +148,7 @@ public class DriveTrain extends Subsystem {
     
   }
   public void tankDrive(double x, double y){
-    driveTrain.tankDrive(x, y);
+    driveTrain.tankDrive(-1*x, -1*y);
   }
 
   public void Stop(){
