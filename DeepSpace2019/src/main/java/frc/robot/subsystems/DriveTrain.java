@@ -42,8 +42,8 @@ public class DriveTrain extends Subsystem {
 
   private int dir = 1;
 
-  private double change = 0.0;
-  private double limitedJoystick = 0.0;
+//  private double change = 0.0;
+//  private double limitedJoystick = 0.0;
 
   public DriveTrain(){
     //Program the decoders
@@ -77,18 +77,19 @@ public class DriveTrain extends Subsystem {
   //   }
   //   return change;
   // }
+  private double speed = 0.0;
   public double smoothSpeed(){
-    double speed = 0.0;
     if(Math.abs(Robot.m_oi.getDriverY())> 0){
       if(speed == 0){
         speed = .5*Robot.m_oi.getDriverY();
       }
       if(Math.abs(speed)<=1 && Math.abs(speed)>0){
-        speed += Math.signum(speed)*RobotMap.DRIVE_LIMIT;
+        speed = speed + Math.signum(speed)*RobotMap.DRIVE_LIMIT;
+        SmartDashboard.putNumber("SmoothSpeed", speed);
       }
       return speed;
     }
-    return 0.0;
+    return speed = 0.0;
   }
 
   public void setDriverMode(){
@@ -161,5 +162,21 @@ public class DriveTrain extends Subsystem {
     dir *= -1;
     //SmartDashboard.putNumber("Direction", dir);
     this.TeleopArcadeDrive(Robot.m_oi.getDriverX(), Robot.m_oi.getDriverY());
+  }
+  public boolean visionDriveArcade(){
+    if (limeLight.calcDoubleS()){
+      this.TeleopArcadeDrive(-limeLight.getDriveCommand(), limeLight.getSteerCommand());
+      SmartDashboard.putNumber("TX", limeLight.getTX());
+      SmartDashboard.putNumber("TY", limeLight.getTY());
+      SmartDashboard.putNumber("TA", limeLight.getTA());
+      SmartDashboard.putNumber("driveCommand", limeLight.getDriveCommand());
+      SmartDashboard.putNumber("steerCommand", limeLight.getSteerCommand());
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public boolean atTargetArcade(){
+    return limeLight.withinDoubleSTolerance();
   }
 }

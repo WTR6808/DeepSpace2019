@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ArmGrab;
+import frc.robot.commands.Drive;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.armMove;
 import frc.robot.commands.ballPivot;
@@ -19,6 +20,7 @@ import frc.robot.commands.ballShoot;
 import frc.robot.commands.changeDir;
 import frc.robot.commands.changeMode;
 import frc.robot.commands.limeDrive;
+import frc.robot.commands.limeDriveArcade;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -56,52 +58,62 @@ public class OI {
   public Joystick driverX = new Joystick(RobotMap.driverJoystick);
   public Joystick opX = new Joystick(RobotMap.operatorJoystick);
 
-  Button driverX_A            = new JoystickButton(driverX, 1);
-  Button driverX_B            = new JoystickButton(driverX, 2);
-  Button driverX_X            = new JoystickButton(driverX, 3);
-  Button driverX_Y            = new JoystickButton(driverX, 4);
-  Button driverX_LeftBumper   = new JoystickButton(driverX, 5);
-  Button driverX_RightBumper  = new JoystickButton(driverX, 6);
-  Button driverX_Back         = new JoystickButton(driverX, 7);
-  Button driverX_Start        = new JoystickButton(driverX, 8);
-  Button driverX_L3           = new JoystickButton(driverX, 9);
+  Button driverX_A            = new JoystickButton(driverX,  1);
+  Button driverX_B            = new JoystickButton(driverX,  2);
+  Button driverX_X            = new JoystickButton(driverX,  3);
+  Button driverX_Y            = new JoystickButton(driverX,  4);
+  Button driverX_LeftBumper   = new JoystickButton(driverX,  5);
+  Button driverX_RightBumper  = new JoystickButton(driverX,  6);
+  Button driverX_Back         = new JoystickButton(driverX,  7);
+  Button driverX_Start        = new JoystickButton(driverX,  8);
+  Button driverX_L3           = new JoystickButton(driverX,  9);
   Button driverX_R3           = new JoystickButton(driverX, 10);
 
-  Button opX_A                = new JoystickButton(opX, 1);
-  Button opX_B                = new JoystickButton(opX, 2);
-  Button opX_X                = new JoystickButton(opX, 3);
-  Button opX_Y                = new JoystickButton(opX, 4);
-  Button opX_LeftBumper       = new JoystickButton(opX, 5);
-  Button opX_RightBumper      = new JoystickButton(opX, 6);
-  Button opX_Back             = new JoystickButton(opX, 7);
+  Button opX_A                = new JoystickButton(opX,  1);
+  Button opX_B                = new JoystickButton(opX,  2);
+  Button opX_X                = new JoystickButton(opX,  3);
+  Button opX_Y                = new JoystickButton(opX,  4);
+  Button opX_LeftBumper       = new JoystickButton(opX,  5);
+  Button opX_RightBumper      = new JoystickButton(opX,  6);
+  Button opX_Back             = new JoystickButton(opX,  7);
   Button opX_Start            = new JoystickButton(opX,  8);
-  Button opX_L3               = new JoystickButton(opX, 9);
+  Button opX_L3               = new JoystickButton(opX,  9);
   Button opX_R3               = new JoystickButton(opX, 10);
 
   public OI(){
+	//Hatch Intake Solenoid Control
     driverX_A.whenPressed(new ArmGrab(DoubleSolenoid.Value.kForward));
     driverX_B.whenPressed(new ArmGrab(DoubleSolenoid.Value.kReverse));
-    opX_X.whenPressed(new ballPivot(1));
-	  opX_X.whenReleased(new ballPivot(0));
-		opX_Y.whenPressed(new ballPivot(-1));
-    opX_Y.whenReleased(new ballPivot(0));
+	
+	//Hatch Intake Motor Control
     driverX_LeftBumper.whenPressed(new armMove(-0.15));
     driverX_LeftBumper.whenReleased(new armMove(0));
     driverX_RightBumper.whenPressed(new armMove(0.15));
     driverX_RightBumper.whenReleased(new armMove(0));
-    driverX_Start.whenPressed(new changeDir());
-//    SmartDashboard.putNumber("Drive Distance", 0);
-//    SmartDashboard.putNumber("Drive Speed", 0);
+	
+	//Swap front and back of the robot for better driving control
+	driverX_Start.whenPressed(new changeDir());
+
+	//Automously drive to the target using the camera
+    driverX_Back.whenPressed(new limeDriveArcade());
+	
+	//Change camera's mode to vision tracking
+    driverX_L3.whenPressed(new changeMode());
+
+	//Ball Intake Arm controls
+	opX_X.whenPressed(new ballPivot(1));
+	opX_X.whenReleased(new ballPivot(0));
+	opX_Y.whenPressed(new ballPivot(-1));
+    opX_Y.whenReleased(new ballPivot(0));
+
+    //Ball Intake Shooter controls
     opX_Back.whenPressed(new ballShoot(-.6));
     opX_Back.whenReleased(new ballShoot(0));
-    driverX_Back.whenPressed(new limeDrive());
-    driverX_L3.whenPressed(new changeMode());
+
+    //Arcade Drive Thing
+    driverX_R3.whenPressed(new Drive(0));
+    driverX_R3.whenReleased(new Drive(1));
   }
-
-
-
-
-
 
   public double getDriverX(){
     return driverX.getX();
@@ -110,7 +122,7 @@ public class OI {
   public double getDriverY(){
     return driverX.getY();
   }
-
+  
   public double getOpX(){
     return opX.getX();
   }
@@ -124,8 +136,4 @@ public class OI {
   public Joystick getDriver(){
     return driverX;
   }
-
-
-
-
 }

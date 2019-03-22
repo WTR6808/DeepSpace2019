@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class limeDrive extends Command {
+
   private boolean noTarget;
 
   public limeDrive() {
     // Use requires() here to declare subsystem dependencies
-    //requires(Robot.m_limeLight);
     requires(Robot.m_driveTrain);
   }
 
@@ -30,16 +30,12 @@ public class limeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //Robot.m_driveTrain.tankDrive(0.5, 0.5);
-    //noTarget = false;
-//Test 2:  Uncomment next line and comment out two lines above
     noTarget = !Robot.m_driveTrain.visionDrive(); //visionDrive returns true if target found
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-//Test 6: Uncomment Robot.m_driveTrain.atTarget()
     return noTarget || Robot.m_driveTrain.atTarget();
   }
 

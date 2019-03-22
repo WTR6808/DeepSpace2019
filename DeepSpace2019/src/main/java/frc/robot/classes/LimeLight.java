@@ -16,38 +16,62 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class LimeLight {
-    private static final double TX_MAX = 54.0;
-    private static final double TY_MAX = 41.0;
+    private static final double TX_MAX = 27.0/2.5;//54.0;
+    private static final double TY_MAX = 20.5/2.5;//41.0;
   
-    //private static final double KP_DIST = 0.1;
-    //private static final double KP_AIM = 0.1;
-    private static final double X_TOLERANCE = 0.5;
+    private static final double X_TOLERANCE = 1.0;
     private static final double Y_TOLERANCE = 0.25;
-    private static final double LIMIT = 0.8;
+//    private static final double LIMIT = 1.0;
   
-    private static double leftSpeed;
-    private static double rightSpeed;
+    private static double  leftSpeed   = 0.0;
+    private static double  rightSpeed  = 0.0;
+    private static boolean validTarget = false;
   
+    private static int targetFailureCount =  0;
+    private static final int MAX_FAILURES = 10; //200mSec delay
+  
+    public boolean mode = false;
+	
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry tv = table.getEntry("tv");
+    NetworkTableEntry ta = table.getEntry("ta");
    // Put methods for controlling this subsystem
     // here. Call these from Commands.
+
+    private double driveCommand = 0.0;
+    private double steerCommand = 0.0;
+
+    private static final double STEER_K      =  0.037;
+    private static final double DRIVE_K      =  0.01;
+    private static final double DESIRED_TA   = 19.5;
+    private static final double MAX_DRIVE    =  .75;
+    private static final double TA_TOLERANCE =  0.1;
+    private static final double STEER_CORRECT = -0.2;
+
+    public double getSteerCommand(){
+      return steerCommand;
+    }
+
+    public double getDriveCommand(){
+      return driveCommand;
+    }
+
+    public double getTA(){
+      return ta.getDouble(0.0);
+    }
   
     public double getTX(){
       return tx.getDouble(0.0);
-      //return 15;
     }
-
+                                  
     public double getTY(){
       return ty.getDouble(0.0);
-      //return -5;
     }
 
     public boolean getTV(){
       return tv.getDouble(0)%2 != 0;
-      //return false;
     }
   
     public void setLEDOn(boolean on){
@@ -61,8 +85,11 @@ public class LimeLight {
       setLEDOn(!drive);
   
       //Start speed at 0.  May need to adjust based on testing
-      leftSpeed = 0.0;
-      rightSpeed = 0.0;
+      //leftSpeed  = 0.2;
+      //rightSpeed = 0.2;
+      
+	  //Reset the no target counter
+	  targetFailureCount = 0;
     }
   
     public double getLeftSpeed(){
@@ -74,37 +101,100 @@ public class LimeLight {
     }
   
     public boolean withinTolerance(){
-      return ((Math.abs(getTX()) < X_TOLERANCE) && (Math.abs(getTY()) < Y_TOLERANCE));
+	  //Test for valid target
+	  if (validTarget){
+		//If tracking a target test X and Y within tolerances
+		return ((Math.abs(getTX()) < X_TOLERANCE) && (Math.abs(getTY()) < Y_TOLERANCE));
+	  }else{
+	    return false;
+	  }
     }
 
     //New version of calcSpeeds.  The old one looks like the speeds will never slow down.
     public boolean calcSpeeds(){
-//Test 4: Comment out following 2 lines
-      // leftSpeed  = 0.5;
-      // rightSpeed = 0.5;
-//Test 4: Uncomment lines to always calculate headingAdj, distanceAdj, leftSpeed
-//        and rightSpeed, and always return true
-//Test 5: Uncomment if code to implement checking for target acquisition and return
-//        value of getTV() instead of always true
-
-      boolean validTarget = getTV();
       double headingAdj;
       double distanceAdj;
+      double greater;
+      double lesser;
+      double ratio = 1.0;
+	  validTarget = getTV();
       if (validTarget){
-        headingAdj  = (Math.abs(getTX()) > X_TOLERANCE) ? (getTX()/TX_MAX) : 0.0;
-        distanceAdj = (Math.abs(getTY()) > Y_TOLERANCE) ? (getTY()/TY_MAX) : 0.0;
+		targetFailureCount = 0;
+        headingAdj  = (getTX()/TX_MAX)*1.1; //Normalized from -1.0 to 1.0
+        distanceAdj = getTY()/TY_MAX; //Normalized from -1.0 to 1.0
+        SmartDashboard.putString("Valid Target", "Target Acquired");
       }else{
         //Alert the operator to no target and set speed adjustments to 0
-        SmartDashboard.putString("Valid Target: ", "No Valid Target");
+        SmartDashboard.putString("Valid Target", "No Valid Target");
+		targetFailureCount++;
         headingAdj = 0.0;
         distanceAdj = 0.0;
       }
-      SmartDashboard.putNumber("Heading  Adj: ", headingAdj);
-      SmartDashboard.putNumber("Distance Adj: ", distanceAdj);
+      //Calculate Ratio to Normalize left & right speeds to -1.0 to 1.0
+      greater = Math.max(Math.abs(headingAdj),Math.abs(distanceAdj));
+      lesser  = Math.min(Math.abs(headingAdj),Math.abs(distanceAdj));
+      if(greater > 0.0) {
+        ratio = (lesser/greater) + 1.0;
+      }
+
+      headingAdj  = headingAdj/ratio;
+      distanceAdj = distanceAdj/ratio;
+      SmartDashboard.putNumber("Heading Adj", headingAdj);
+      SmartDashboard.putNumber("Distance Adj", distanceAdj);
+
       //Calculate the speeds
-      leftSpeed  = (distanceAdj-headingAdj) * LIMIT;
-      rightSpeed = (distanceAdj+headingAdj) * LIMIT;
-      return validTarget;
-         //return true;
+      leftSpeed  = (distanceAdj-headingAdj);
+      rightSpeed = (distanceAdj+headingAdj);
+      leftSpeed  = (Math.abs(leftSpeed)  < 0.5)?Math.signum((leftSpeed ))*.4:leftSpeed;
+      rightSpeed = (Math.abs(rightSpeed) < 0.5)?Math.signum((rightSpeed))*.4:rightSpeed;
+	  
+      return (validTarget || (targetFailureCount <= MAX_FAILURES));
+  }
+  public boolean getBool(){
+    if(mode){
+      mode = false;
+      return false;
+      
+
+    }else{
+      mode = true;
+      return true;
     }
+	//Could also just have done
+	//mode = !mode;
+	//return mode;
+  }
+  
+  public boolean calcDoubleS(){
+    validTarget = getTV();
+    if (validTarget){
+	    targetFailureCount = 0;
+		//May need to set some minimum steer and drive values
+        steerCommand = getTX() * STEER_K  + STEER_CORRECT;
+        driveCommand = (DESIRED_TA - getTA()) * DRIVE_K;
+        SmartDashboard.putString("Valid Target", "Target Acquired");
+    }else{
+        //Alert the operator to no target and set speed adjustments to 0
+        SmartDashboard.putString("Valid Target", "No Valid Target");
+	    targetFailureCount++;
+        driveCommand = 0.0;
+        steerCommand = 0.0;
+      }
+      //limit the drive speed
+      if (driveCommand < 0.4){
+        driveCommand = 0.4;
+      }
+	    //driveCommand = ((Math.abs(driveCommand) >= MAX_DRIVE)?Math.signum(driveCommand)*MAX_DRIVE:driveCommand);
+      return (validTarget || (targetFailureCount <= MAX_FAILURES));
+  }
+  
+  public boolean withinDoubleSTolerance(){
+	//Test for valid target
+	if (validTarget){
+	  //If tracking a target test TA within tolerances
+	  return (Math.abs(DESIRED_TA - getTA()) < TA_TOLERANCE);
+	}else{
+	  return false;
+	}
+  }
 }

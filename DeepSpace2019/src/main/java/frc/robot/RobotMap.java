@@ -54,4 +54,6 @@ public class RobotMap {
   public static int encoderArmUp = 0;
   public static int encoderArmDown = 1;
   public static int intakePivotMotor = 6;
+
+  public static final double DRIVE_LIMIT = 0.025;
 }

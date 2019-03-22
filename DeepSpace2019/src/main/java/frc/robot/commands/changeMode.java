@@ -24,7 +24,7 @@ public class changeMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_driveTrain.setVisionMode();
+    Robot.m_driveTrain.setMode();
   }
 
   // Make this return true when this Command no longer needs to run execute()

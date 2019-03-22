@@ -31,12 +31,15 @@ public class Robot extends TimedRobot {
   public static HatchIntake m_hatchIntake;
   public static BallIntake m_ballIntake;
   public static BallPivot m_ballPivot;
-//  public static LimeLight m_limeLight;
   public static OI m_oi;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  public static SendableChooser<Double> m_arcadeSpeed = new SendableChooser<>();
+  public static SendableChooser<Double> m_arcadeRotation = new SendableChooser<>();
+
+  
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -47,12 +50,44 @@ public class Robot extends TimedRobot {
     m_hatchIntake = new HatchIntake();
     m_ballIntake = new BallIntake();
     m_ballPivot = new BallPivot();
-//    m_limeLight = new LimeLight();
     m_oi = new OI();
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
-    CameraServer.getInstance().startAutomaticCapture();
+  
     
+    m_arcadeSpeed.addOption(".2", .2);
+    m_arcadeSpeed.addOption(".25", .25);
+    m_arcadeSpeed.addOption(".3", .3);
+    m_arcadeSpeed.addOption(".35", .35);
+    m_arcadeSpeed.addOption(".4", .4);
+    m_arcadeSpeed.addOption(".45", .45);
+    m_arcadeSpeed.addOption(".5", .5);
+
+    m_arcadeRotation.addOption(".2", .2);
+    m_arcadeRotation.addOption(".25", .25);
+    m_arcadeRotation.addOption(".3", .3);
+    m_arcadeRotation.addOption(".35", .35);
+    m_arcadeRotation.addOption(".4", .4);
+    m_arcadeRotation.addOption(".45", .45);
+    m_arcadeRotation.addOption(".5", .5);
+    
+
+    SmartDashboard.putData("Arcade Speed Chooser", m_arcadeSpeed);
+    SmartDashboard.putData("Arcade Rotation Chooser", m_arcadeRotation);
+
+    // chooser.addOption("My Auto", new MyAutoCommand());
+//    SmartDashboard.putData("Auto mode", m_chooser);
+    CameraServer.getInstance().startAutomaticCapture();
+	
+	//Display the Commands currently scheduled to run
+	SmartDashboard.putData(Scheduler.getInstance());
+	
+	//Display the status of the subsystems
+	SmartDashboard.putData(m_driveTrain);
+	SmartDashboard.putData(m_hatchIntake);
+	SmartDashboard.putData(m_ballIntake);
+	SmartDashboard.putData(m_ballPivot);
+  m_driveTrain.setDriverMode();
+  SmartDashboard.putNumber("Arcade Speed", 0);
+  SmartDashboard.putNumber("Arcade Rotation", 0);
   }
 
   /**
